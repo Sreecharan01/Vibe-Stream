@@ -84,7 +84,7 @@ const PlaylistView = () => {
       {/* Play Button */}
       <div className="px-4 mb-8">
         <button 
-          onClick={() => playlist.tracks && playlist.tracks.length > 0 && playTrack(playlist.tracks[0])}
+          onClick={() => playlist.tracks && playlist.tracks.length > 0 && playTrack(playlist.tracks[0], playlist.tracks)}
           disabled={!playlist.tracks || playlist.tracks.length === 0}
           className="w-14 h-14 bg-primary hover:bg-[#1ed760] hover:scale-105 active:scale-95 transition-all text-black rounded-full flex items-center justify-center shadow-lg shadow-primary/20 disabled:opacity-50 disabled:hover:scale-100 disabled:hover:bg-primary"
         >
@@ -110,12 +110,12 @@ const PlaylistView = () => {
                   <tr 
                     key={idx} 
                     className="group hover:bg-white/5 transition-colors cursor-pointer"
-                    onDoubleClick={() => playTrack(track)}
+                    onDoubleClick={() => playTrack(track, playlist.tracks)}
                   >
                     <td className="py-3 text-center">
                       <span className="group-hover:hidden">{idx + 1}</span>
                       <button 
-                        onClick={() => playTrack(track)}
+                        onClick={() => playTrack(track, playlist.tracks)}
                         className="hidden group-hover:flex mx-auto w-6 h-6 items-center justify-center text-white"
                       >
                         <Play size={14} fill="currentColor" />
@@ -134,7 +134,7 @@ const PlaylistView = () => {
                     <td className="py-3 text-right pr-4">
                       {/* Fake duration since we don't store it in DB, or could just show a play button */}
                       <button 
-                        onClick={() => playTrack(track)}
+                        onClick={() => playTrack(track, playlist.tracks)}
                         className="text-text-secondary hover:text-white transition-colors"
                       >
                         Play

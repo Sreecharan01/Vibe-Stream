@@ -132,7 +132,7 @@ const Playlists = () => {
                 <button 
                   onClick={(e) => {
                     e.stopPropagation();
-                    if (playlist.tracks && playlist.tracks.length > 0) playTrack(playlist.tracks[0]);
+                    if (playlist.tracks && playlist.tracks.length > 0) playTrack(playlist.tracks[0], playlist.tracks);
                   }}
                   className="absolute bottom-2 right-2 bg-primary text-black p-3 rounded-full opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 shadow-xl hover:scale-105 hover:bg-[#1ed760]"
                 >

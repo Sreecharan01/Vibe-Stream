@@ -6,7 +6,7 @@ import { AuthContext } from '../context/AuthContext';
 import LyricsPanel from './LyricsPanel';
 
 const GlobalPlayer = () => {
-  const { currentTrack, isPlaying, togglePlay } = useContext(PlayerContext);
+  const { currentTrack, isPlaying, togglePlay, playNext, playPrevious, hasNext, hasPrevious } = useContext(PlayerContext);
   const { user } = useContext(AuthContext);
   
   const [played, setPlayed] = useState(0);
@@ -198,7 +198,11 @@ const GlobalPlayer = () => {
             onTimeUpdate={(e) => setPlayed(e.target.currentTime)}
             onDurationChange={(e) => setDuration(e.target.duration)}
             onEnded={() => {
-              if (isPlaying) togglePlay(); 
+              if (hasNext) {
+                playNext();
+              } else {
+                if (isPlaying) togglePlay();
+              }
             }}
           />
         )}
@@ -216,7 +220,11 @@ const GlobalPlayer = () => {
         {/* Controls */}
         <div className="flex flex-col items-center justify-center max-w-2xl w-2/4">
           <div className="flex items-center gap-6 mb-2">
-            <button className="text-text-secondary hover:text-white transition-colors">
+            <button 
+              onClick={playPrevious}
+              disabled={!hasPrevious}
+              className={`transition-colors ${hasPrevious ? 'text-text-secondary hover:text-white' : 'text-text-secondary/30 cursor-not-allowed'}`}
+            >
               <SkipBack size={20} fill="currentColor" />
             </button>
             <button 
@@ -225,7 +233,11 @@ const GlobalPlayer = () => {
             >
               {isPlaying ? <Pause fill="black" size={16} /> : <Play fill="black" size={16} className="ml-1" />}
             </button>
-            <button className="text-text-secondary hover:text-white transition-colors">
+            <button 
+              onClick={playNext}
+              disabled={!hasNext}
+              className={`transition-colors ${hasNext ? 'text-text-secondary hover:text-white' : 'text-text-secondary/30 cursor-not-allowed'}`}
+            >
               <SkipForward size={20} fill="currentColor" />
             </button>
           </div>

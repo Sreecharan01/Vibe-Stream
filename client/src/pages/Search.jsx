@@ -51,7 +51,7 @@ const Search = () => {
               <div 
                 key={i} 
                 className="bg-surface hover:bg-surface-hover p-4 rounded-xl transition-all duration-300 group cursor-pointer"
-                onClick={() => playTrack(track)}
+                onClick={() => playTrack(track, results)}
               >
                 <div className="relative mb-4 aspect-square shadow-lg overflow-hidden rounded-lg">
                   <img src={track.albumArt || 'https://via.placeholder.com/150'} alt={track.title} className="w-full h-full object-cover" />
