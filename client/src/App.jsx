@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import Search from './pages/Search';
 import Playlists from './pages/Playlists';
 import Login from './pages/Login';
+import Profile from './pages/Profile';
 import { PlayerProvider } from './context/PlayerContext';
 import { AuthProvider } from './context/AuthContext';
 
@@ -23,6 +24,7 @@ function App() {
                   <Route path="/search" element={<Search />} />
                   <Route path="/playlists" element={<Playlists />} />
                   <Route path="/login" element={<Login />} />
+                  <Route path="/profile" element={<Profile />} />
                 </Routes>
               </main>
             </div>
