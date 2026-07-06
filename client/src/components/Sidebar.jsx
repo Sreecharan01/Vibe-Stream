@@ -102,7 +102,7 @@ const Sidebar = () => {
 
         {likedPlaylist && (
           <div 
-            onClick={() => navigate(`/profile`)}
+            onClick={() => navigate(`/playlists/${likedPlaylist._id}`)}
             className="flex items-center gap-3 p-2 rounded-md hover:bg-surface-hover cursor-pointer transition-colors"
           >
             <div className="w-12 h-12 rounded bg-gradient-to-br from-indigo-500 to-purple-400 flex items-center justify-center shrink-0">

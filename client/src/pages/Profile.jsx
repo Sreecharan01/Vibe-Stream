@@ -93,54 +93,6 @@ const Profile = () => {
         </div>
       ) : (
         <div className="space-y-12">
-          {/* Liked Songs Highlight */}
-          {likedSongsPlaylist && (
-            <section>
-              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-                <Heart className="text-primary" fill="currentColor" />
-                Your Liked Songs
-              </h2>
-              {likedSongsPlaylist.tracks && likedSongsPlaylist.tracks.length > 0 ? (
-                <div className="bg-surface/40 border border-surface-hover rounded-2xl p-6 overflow-x-auto">
-                  <table className="w-full text-left text-text-secondary text-sm">
-                    <thead>
-                      <tr className="border-b border-surface-hover">
-                        <th className="pb-3 font-medium w-12 text-center">#</th>
-                        <th className="pb-3 font-medium">Title</th>
-                        <th className="pb-3 font-medium">Artist</th>
-                        <th className="pb-3 font-medium text-right pr-4">Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {likedSongsPlaylist.tracks.map((track, idx) => (
-                        <tr key={idx} className="group hover:bg-white/5 transition-colors">
-                          <td className="py-3 text-center">{idx + 1}</td>
-                          <td className="py-3">
-                            <div className="flex items-center gap-3">
-                              <img src={track.albumArt || 'https://via.placeholder.com/40'} alt={track.title} className="w-10 h-10 rounded shadow-sm" />
-                              <span className="text-white font-medium group-hover:text-primary transition-colors">{track.title}</span>
-                            </div>
-                          </td>
-                          <td className="py-3">{track.artist}</td>
-                          <td className="py-3 text-right pr-4">
-                            <button 
-                              onClick={() => playTrack(track)}
-                              className="w-8 h-8 rounded-full bg-primary flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:scale-110 ml-auto"
-                            >
-                              <Play size={14} fill="black" className="text-black ml-0.5" />
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <p className="text-text-secondary">You haven't liked any songs yet.</p>
-              )}
-            </section>
-          )}
-
           {/* All Other Playlists */}
           <section>
             <h2 className="text-2xl font-bold text-white mb-6">Your Playlists</h2>
