@@ -9,7 +9,25 @@ const Topbar = () => {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleSearch = (e) => {
+  // Sync state with URL if they land directly on /search?q=...
+  React.useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const q = params.get('q');
+    if (q) setSearchQuery(q);
+    else setSearchQuery('');
+  }, [location.search]);
+
+  const handleSearchChange = (e) => {
+    const val = e.target.value;
+    setSearchQuery(val);
+    if (val.trim()) {
+      navigate(`/search?q=${encodeURIComponent(val)}`, { replace: true });
+    } else if (location.pathname === '/search') {
+      navigate(`/search`, { replace: true });
+    }
+  };
+
+  const handleSearchSubmit = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
       navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
@@ -25,7 +43,6 @@ const Topbar = () => {
           onClick={() => navigate('/')}
         >
           <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center">
-            {/* Using a simple circle to represent the logo spot */}
             <div className="w-4 h-4 bg-black rounded-full" />
           </div>
           <span className="font-bold text-lg hidden md:block">VibeStream</span>
@@ -41,7 +58,7 @@ const Topbar = () => {
           <Home size={24} fill={location.pathname === '/' ? 'currentColor' : 'none'} />
         </button>
 
-        <form onSubmit={handleSearch} className="flex-1 relative group">
+        <form onSubmit={handleSearchSubmit} className="flex-1 relative group">
           <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
             <SearchIcon className="h-5 w-5 text-text-secondary group-focus-within:text-white transition-colors" />
           </div>
@@ -49,7 +66,7 @@ const Topbar = () => {
             type="text"
             placeholder="What do you want to play?"
             value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            onChange={handleSearchChange}
             className="block w-full h-12 pl-12 pr-4 bg-surface/50 border-2 border-transparent focus:border-surface-hover rounded-full text-white placeholder-text-secondary focus:outline-none focus:bg-surface transition-all font-medium"
           />
         </form>
