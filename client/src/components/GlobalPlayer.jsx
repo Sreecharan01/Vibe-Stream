@@ -188,7 +188,7 @@ const GlobalPlayer = () => {
       {/* Lyrics Panel */}
       <LyricsPanel isOpen={showLyrics} onClose={() => setShowLyrics(false)} track={currentTrack} />
 
-      <div className="fixed bottom-0 left-0 right-0 h-24 bg-black border-t border-surface-hover flex items-center justify-between px-4 z-50">
+      <div className="w-full h-24 bg-black border-t border-surface flex items-center justify-between px-4 shrink-0 z-50">
         
         {/* Hidden Audio Player */}
         {currentTrack.previewUrl && (
