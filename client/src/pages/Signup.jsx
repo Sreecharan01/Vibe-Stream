@@ -8,6 +8,7 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [authError, setAuthError] = useState('');
   const { register, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -20,11 +21,16 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
+    setAuthError('');
     try {
       await register(username, email, password);
       navigate('/playlists');
     } catch (error) {
-      // In a real app, we would show a toast or error message here
+      if (error.response && error.response.data && error.response.data.message) {
+        setAuthError(error.response.data.message);
+      } else {
+        setAuthError('An error occurred during signup.');
+      }
       console.error(error);
     } finally {
       setIsLoading(false);
@@ -94,6 +100,12 @@ const Signup = () => {
                 />
               </div>
             </div>
+
+            {authError && (
+              <div className="bg-red-500/10 border border-red-500/50 text-red-500 text-sm p-3 rounded-lg text-center">
+                {authError}
+              </div>
+            )}
 
             <button
               type="submit"

@@ -7,6 +7,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [authError, setAuthError] = useState('');
   const { login, user } = useContext(AuthContext);
   const navigate = useNavigate();
 
@@ -19,9 +20,19 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
-    await login(email, password);
-    setIsLoading(false);
-    navigate('/playlists');
+    setAuthError('');
+    try {
+      await login(email, password);
+      navigate('/playlists');
+    } catch (error) {
+      if (error.response && error.response.data && error.response.data.message) {
+        setAuthError(error.response.data.message);
+      } else {
+        setAuthError('Invalid email or password.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -72,6 +83,12 @@ const Login = () => {
                 />
               </div>
             </div>
+
+            {authError && (
+              <div className="bg-red-500/10 border border-red-500/50 text-red-500 text-sm p-3 rounded-lg text-center">
+                {authError}
+              </div>
+            )}
 
             <button
               type="submit"
