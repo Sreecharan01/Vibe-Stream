@@ -149,10 +149,15 @@ const Profile = () => {
                 {otherPlaylists.map((playlist) => (
                   <div 
                     key={playlist._id} 
+                    onClick={() => navigate(`/playlists/${playlist._id}`)}
                     className="bg-surface hover:bg-surface-hover p-4 rounded-xl transition-all duration-300 group cursor-pointer"
                   >
                     <div className="relative mb-4 aspect-square shadow-lg overflow-hidden rounded-lg bg-black/50 flex items-center justify-center">
-                      <ListMusic size={48} className="text-text-secondary group-hover:text-white transition-colors" />
+                      {playlist.tracks && playlist.tracks.length > 0 && playlist.tracks[0].albumArt ? (
+                        <img src={playlist.tracks[0].albumArt} alt="Album Art" className="w-full h-full object-cover" />
+                      ) : (
+                        <ListMusic size={48} className="text-text-secondary group-hover:text-white transition-colors" />
+                      )}
                       {playlist.tracks && playlist.tracks.length > 0 && (
                         <button 
                           onClick={(e) => {
@@ -161,7 +166,7 @@ const Profile = () => {
                           }}
                           className="absolute bottom-2 right-2 bg-primary text-black p-3 rounded-full opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 shadow-xl hover:scale-105 hover:bg-[#1ed760]"
                         >
-                          <Play fill="black" size={20} />
+                          <Play fill="black" size={20} className="ml-0.5" />
                         </button>
                       )}
                     </div>

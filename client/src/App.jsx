@@ -5,6 +5,7 @@ import GlobalPlayer from './components/GlobalPlayer';
 import Dashboard from './pages/Dashboard';
 import Search from './pages/Search';
 import Playlists from './pages/Playlists';
+import PlaylistView from './pages/PlaylistView';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Profile from './pages/Profile';
@@ -24,6 +25,7 @@ function App() {
                   <Route path="/" element={<Dashboard />} />
                   <Route path="/search" element={<Search />} />
                   <Route path="/playlists" element={<Playlists />} />
+                  <Route path="/playlists/:id" element={<PlaylistView />} />
                   <Route path="/login" element={<Login />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/profile" element={<Profile />} />
