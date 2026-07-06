@@ -1,0 +1,17 @@
+{
+  "name": "music-platform",
+  "version": "1.0.0",
+  "description": "VibeStream - Music Streaming Platform",
+  "main": "index.js",
+  "scripts": {
+    "server": "npm run start --prefix server",
+    "client": "npm run dev --prefix client",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^10.0.3"
+  }
+}
