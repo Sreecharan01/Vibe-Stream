@@ -39,9 +39,9 @@ const Dashboard = () => {
   }, [user]);
 
   // Combine playlists and charts for the quick play grid
-  const quickPlayItems = [...playlists];
+  const quickPlayItems = Array.isArray(playlists) ? [...playlists] : [];
   // Fill the rest with charts if we don't have enough playlists (up to 8 items)
-  if (quickPlayItems.length < 8 && charts.length > 0) {
+  if (quickPlayItems.length < 8 && Array.isArray(charts) && charts.length > 0) {
     const needed = 8 - quickPlayItems.length;
     quickPlayItems.push(...charts.slice(0, needed).map(c => ({
       _id: c.title, // dummy ID for charts
@@ -104,7 +104,7 @@ const Dashboard = () => {
         <button className="text-sm font-bold text-text-secondary hover:underline">Show all</button>
       </div>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-6 mb-10">
-        {charts.length > 0 ? (
+        {Array.isArray(charts) && charts.length > 0 ? (
           charts.slice(0, 6).map((track, idx) => (
             <div 
               key={idx} 
