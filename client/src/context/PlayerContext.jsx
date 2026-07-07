@@ -8,6 +8,7 @@ export const PlayerProvider = ({ children }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [queue, setQueue] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(-1);
+  const [playbackMode, setPlaybackMode] = useState('sequential'); // 'sequential', 'loop', 'shuffle'
 
   const playTrack = async (track, newQueue = null) => {
     setCurrentTrack(track);
@@ -43,8 +44,19 @@ export const PlayerProvider = ({ children }) => {
   };
 
   const playNext = async () => {
+    if (playbackMode === 'shuffle' && queue.length > 1) {
+       let nextIndex;
+       do {
+         nextIndex = Math.floor(Math.random() * queue.length);
+       } while (nextIndex === currentIndex && queue.length > 1);
+       await playTrack(queue[nextIndex], queue);
+       return;
+    }
+
     if (currentIndex < queue.length - 1 && currentIndex !== -1) {
       await playTrack(queue[currentIndex + 1], queue);
+    } else if (playbackMode === 'loop' && queue.length > 0) {
+      await playTrack(queue[0], queue);
     }
   };
 
@@ -56,6 +68,14 @@ export const PlayerProvider = ({ children }) => {
 
   const togglePlay = () => setIsPlaying(!isPlaying);
 
+  const togglePlaybackMode = () => {
+    setPlaybackMode(prev => {
+      if (prev === 'sequential') return 'loop';
+      if (prev === 'loop') return 'shuffle';
+      return 'sequential';
+    });
+  };
+
   return (
     <PlayerContext.Provider value={{ 
       currentTrack, 
@@ -66,8 +86,10 @@ export const PlayerProvider = ({ children }) => {
       setQueue,
       playNext,
       playPrevious,
-      hasNext: currentIndex !== -1 && currentIndex < queue.length - 1,
-      hasPrevious: currentIndex > 0
+      hasNext: playbackMode !== 'sequential' || (currentIndex !== -1 && currentIndex < queue.length - 1),
+      hasPrevious: currentIndex > 0,
+      playbackMode,
+      togglePlaybackMode
     }}>
       {children}
     </PlayerContext.Provider>

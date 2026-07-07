@@ -1,12 +1,12 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import axios from 'axios';
-import { Play, Pause, SkipBack, SkipForward, Volume2, Mic2, Download, ListPlus, Plus, Heart } from 'lucide-react';
+import { Play, Pause, SkipBack, SkipForward, Volume2, Mic2, Download, ListPlus, Plus, Heart, Repeat, Shuffle } from 'lucide-react';
 import { PlayerContext } from '../context/PlayerContext';
 import { AuthContext } from '../context/AuthContext';
 import LyricsPanel from './LyricsPanel';
 
 const GlobalPlayer = () => {
-  const { currentTrack, isPlaying, togglePlay, playNext, playPrevious, hasNext, hasPrevious } = useContext(PlayerContext);
+  const { currentTrack, isPlaying, togglePlay, playNext, playPrevious, hasNext, hasPrevious, playbackMode, togglePlaybackMode, queue } = useContext(PlayerContext);
   const { user } = useContext(AuthContext);
   
   const [played, setPlayed] = useState(0);
@@ -198,7 +198,12 @@ const GlobalPlayer = () => {
             onTimeUpdate={(e) => setPlayed(e.target.currentTime)}
             onDurationChange={(e) => setDuration(e.target.duration)}
             onEnded={() => {
-              if (hasNext) {
+              if (playbackMode === 'loop' && queue.length === 1) {
+                if (audioRef.current) {
+                  audioRef.current.currentTime = 0;
+                  audioRef.current.play().catch(e => console.error("Loop playback error:", e));
+                }
+              } else if (hasNext) {
                 playNext();
               } else {
                 if (isPlaying) togglePlay();
@@ -347,6 +352,13 @@ const GlobalPlayer = () => {
             )}
           </div>
 
+          <button 
+            onClick={togglePlaybackMode}
+            className={`transition-colors hover:text-white ${playbackMode !== 'sequential' ? 'text-primary' : 'text-text-secondary'}`}
+            title={`Playback Mode: ${playbackMode}`}
+          >
+            {playbackMode === 'shuffle' ? <Shuffle size={18} /> : <Repeat size={18} />}
+          </button>
           <button 
             onClick={handleDownload} 
             disabled={isDownloading || !currentTrack.previewUrl}
