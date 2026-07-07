@@ -8,8 +8,15 @@ export const AuthProvider = ({ children }) => {
   
   useEffect(() => {
     const userInfo = localStorage.getItem('userInfo');
-    if (userInfo) {
-      setUser(JSON.parse(userInfo));
+    if (userInfo && userInfo !== 'undefined') {
+      try {
+        setUser(JSON.parse(userInfo));
+      } catch (err) {
+        console.error('Failed to parse user info', err);
+        localStorage.removeItem('userInfo');
+      }
+    } else if (userInfo === 'undefined') {
+      localStorage.removeItem('userInfo');
     }
   }, []);
 
