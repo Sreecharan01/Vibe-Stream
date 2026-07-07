@@ -191,26 +191,25 @@ const GlobalPlayer = () => {
       <div className="w-full h-24 bg-black border-t border-surface flex items-center justify-between px-4 shrink-0 z-50">
         
         {/* Hidden Audio Player */}
-        {currentTrack.previewUrl && (
-          <audio 
-            ref={audioRef}
-            src={currentTrack.previewUrl} 
-            onTimeUpdate={(e) => setPlayed(e.target.currentTime)}
-            onDurationChange={(e) => setDuration(e.target.duration)}
-            onEnded={() => {
-              if (playbackMode === 'loop' && queue.length === 1) {
-                if (audioRef.current) {
-                  audioRef.current.currentTime = 0;
-                  audioRef.current.play().catch(e => console.error("Loop playback error:", e));
-                }
-              } else if (hasNext) {
-                playNext();
-              } else {
-                if (isPlaying) togglePlay();
+        <audio 
+          ref={audioRef}
+          src={currentTrack.previewUrl || ''} 
+          autoPlay={isPlaying}
+          onTimeUpdate={(e) => setPlayed(e.target.currentTime)}
+          onDurationChange={(e) => setDuration(e.target.duration)}
+          onEnded={() => {
+            if (playbackMode === 'loop' && queue.length === 1) {
+              if (audioRef.current) {
+                audioRef.current.currentTime = 0;
+                audioRef.current.play().catch(e => console.error("Loop playback error:", e));
               }
-            }}
-          />
-        )}
+            } else if (hasNext) {
+              playNext();
+            } else {
+              if (isPlaying) togglePlay();
+            }
+          }}
+        />
 
         {/* Now Playing Info */}
         <div className="flex items-center gap-4 w-1/4 min-w-[180px]">
